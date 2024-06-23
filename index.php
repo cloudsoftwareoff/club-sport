@@ -3,9 +3,10 @@
 require_once __DIR__ . '/src/db_connection.php';
 require_once __DIR__ . '/src/controllers/EventController.php';
 session_start();
-echo $_SESSION['user_id']; 
-echo $_SESSION['username'];
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 
+$logged = $user_id !== null;
 $pdo = new PDO($dsn, $user, $pass, $options);
 $eventController = new EventController($pdo);
 $events = $eventController->readAll();
@@ -74,7 +75,7 @@ $events = $eventController->readAll();
                               <a class="nav-link" href="about.html">About</a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="skating.html">skating</a>
+                              <a class="nav-link" href="events.php">Events</a>
                            </li>
                            <li class="nav-item">
                               <a class="nav-link" href="shop.html">shop</a>
@@ -89,7 +90,7 @@ $events = $eventController->readAll();
                <div class="col-md-2">
                   <ul class="email text_align_right">
                      <li class="d_none">
-                     <a href="<?php echo $_SESSION['user_id'] != null ? 'profile.php' : 'u/signup.php'; ?>">
+                     <a href="<?php echo $logged ?  'profile.php' : 'u/signup.php'; ?>">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         </a>
                      
@@ -202,14 +203,14 @@ $events = $eventController->readAll();
          </div>
       </div>
       <!-- end banner -->
-     <!-- our class -->
-     <div class="class">
+      <!-- our class -->
+      <div class="class">
          <div class="container">
             <div class="row">
                <div class="col-md-12">
                   <div class="titlepage text_align_center">
-                     <h2>Our Skating Classes</h2>
-                     <p>Explore our range of skating classes for all levels.</p>
+                     <h2>Our Events</h2>
+                     <p>Join us</p>
                   </div>
                </div>
             </div>
@@ -217,304 +218,72 @@ $events = $eventController->readAll();
                <?php foreach ($events as $event): ?>
                   <div class="col-md-4 margi_bottom">
                      <div class="class_box text_align_center">
-                        <i><img src="bg.jpg" alt="#"/></i>
+                        <figure>
+                           <img src="images/event.png" alt="#" />
+                        </figure>
                         <h3><?php echo $event['title']; ?></h3>
                         <p><?php echo $event['description']; ?></p>
+                        <div class="event-details">
+                           <p><strong>Date:</strong> <?php echo $event['date']; ?></p>
+                           <p><strong>Time:</strong> <?php echo $event['time']; ?></p>
+                           <p><strong>Location:</strong> <?php echo $event['location']; ?></p>
+                        </div>
+                        <br>
+                        <a class="read_more" href="events/event_details.php?event_id=<?php echo $event['id']; ?>">Read More</a>
                      </div>
-                     <a class="read_more" href="Javascript:void(0)">Read More</a>
                   </div>
                <?php endforeach; ?>
             </div>
          </div>
       </div>
       <!-- end our class -->
-      <!-- about -->
-      <div class="about">
-         <div class="container-fluid">
-            <div class="row d_flex">
-               <div class="col-md-6">
-                  <div class="titlepage text_align_left">
-                     <h2>About <br>Skating <br> school</h2>
-                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alterationThere are many variatioThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alterationThere are many variationsns
-                     </p>
-                     <div class="link_btn">
-                        <a class="read_more" href="about.html">Read More</a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-md-6">
-                  <div class="about_img text_align_center">
-                     <figure><img src="images/about.png" alt="#"/></figure>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- end about -->
-      <!-- skating -->
-      <div class="skating">
-         <div class="container-fluid">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="titlepage text_align_center">
-                     <h2>Skating  Video</h2>
-                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                     </p>
-                  </div>
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-md-4">
-                  <div class="skating-box ">
-                     <figure><img src="images/sakt1.png" alt="#"/></figure>
-                     <div class="link_btn">
-                        <a class="read_more" href="Javascript:void(0)">See More</a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <div class="skating-box">
-                     <figure><img src="images/sakt2.png" alt="#"/></figure>
-                     <div class="link_btn">
-                        <a class="read_more" href="Javascript:void(0)">See More</a>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <div class="skating-box">
-                     <figure><img src="images/sakt3.png" alt="#"/></figure>
-                     <div class="link_btn">
-                        <a class="read_more" href="Javascript:void(0)">See More</a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- end skating -->
-      <!-- shop -->
-      <div class="shop">
-         <div class="container-fluid">
-            <div class="row d_flex d_grid">
-               <div class="col-md-7">
-                  <div class="shop_img text_align_center" data-aos="fade-right">
-                     <figure><img class="img_responsive" src="images/shop.png" alt="#"/></figure>
-                  </div>
-               </div>
-               <div class="col-md-5 order_1_mobile">
-                  <div class="titlepage text_align_left ">
-                     <h2>Our  Skate <br>Shop</h2>
-                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alterationThere are many variatioThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alterationThere are many variationsns
-                     </p>
-                     <a class="read_more" href="shop.html">Buy Now</a>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- end shop -->
-      <!-- testimonial -->
-      <div class="testimonial">
-         <div class="container">
-            <div class="row">
-               <div class="col-sm-12">
-                  <div class="titlepage text_align_center">
-                     <h2>Testimonial</h2>
-                  </div>
-               </div>
-            </div>
-            <!-- start slider section -->
-            <div class="row">
-               <div class="col-md-12">
-                  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                     <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                     </ol>
-                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                           <div class="container-fluid">
-                              <div class="carousel-caption relative">
-                                 <div class="row d_flex">
-                                    <div class="col-md-3">
-                                       <div class="test_box text_align_center">
-                                          <span><img src="images/test1.png" alt="#"/></span>
-                                          <h4>Jone Lo</h4>
-                                          <img class="img_responsive" src="images/te.png" alt="#"/>
-                                          <p>humour, or randomised words which don't look even slightly believable. If you are</p>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                       <div class="test_box white_bg text_align_center">
-                                          <span><img src="images/test2.png" alt="#"/></span>
-                                          <h4>Michale</h4>
-                                          <img class="img_responsive" src="images/te2.png" alt="#"/>
-                                          <p>humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure</p>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                       <div class="test_box text_align_center">
-                                          <span><img src="images/test3.png" alt="#"/></span>
-                                          <h4>Disol</h4>
-                                          <img class="img_responsive" src="images/te.png" alt="#"/>
-                                          <p>humour, or randomised words which don't look even slightly believable. If you are</p>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="carousel-item">
-                           <div class="container-fluid">
-                              <div class="carousel-caption relative">
-                                 <div class="row d_flex">
-                                    <div class="col-md-3">
-                                       <div class="test_box text_align_center">
-                                          <span><img src="images/test2.png" alt="#"/></span>
-                                          <h4>Michale</h4>
-                                          <img class="img_responsive" src="images/te.png" alt="#"/>
-                                          <p>humour, or randomised words which don't look even slightly believable. If you are</p>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                       <div class="test_box white_bg text_align_center">
-                                          <span><img src="images/test3.png" alt="#"/></span>
-                                          <h4>Disol</h4>
-                                          <img class="img_responsive" src="images/te2.png" alt="#"/>
-                                          <p> humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure</p>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                       <div class="test_box text_align_center">
-                                          <span><img src="images/test1.png" alt="#"/></span>
-                                          <h4>Jone Lo</h4>
-                                          <img class="img_responsive" src="images/te.png" alt="#"/>
-                                          <p>humour, or randomised words which don't look even slightly believable. If you are</p>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="carousel-item">
-                           <div class="container-fluid">
-                              <div class="carousel-caption relative">
-                                 <div class="row d_flex">
-                                    <div class="col-md-3">
-                                       <div class="test_box text_align_center">
-                                          <span><img src="images/test3.png" alt="#"/></span>
-                                          <h4>Disol</h4>
-                                          <img class="img_responsive" src="images/te.png" alt="#"/>
-                                          <p>humour, or randomised words which don't look even slightly believable. If you are</p>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                       <div class="test_box  white_bg text_align_center">
-                                          <span><img src="images/test1.png" alt="#"/></span>
-                                          <h4>Jone Lo</h4>
-                                          <img class="img_responsive" src="images/te2.png" alt="#"/>
-                                          <p> humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure</p>
-                                       </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                       <div class="test_box text_align_center">
-                                          <span><img src="images/test2.png" alt="#"/></span>
-                                          <h4>Michale</h4>
-                                          <img class="img_responsive" src="images/te.png" alt="#"/>
-                                          <p>humour, or randomised words which don't look even slightly believable. If you are</p>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                     <span class="sr-only">Previous</span>
-                     </a>
-                     <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                     <i class="fa fa-angle-right" aria-hidden="true"></i>
-                     <span class="sr-only">Next</span>
-                     </a>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- end testimonial -->
-      <!--  footer -->
+      <!-- footer -->
       <footer>
          <div class="footer">
             <div class="container">
                <div class="row">
-                  <div class="col-md-4 ">
-                     <div class="infoma">
+                  <div class="col-md-3 col-sm-6">
+                     <ul class="social_icon">
+                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                     </ul>
+                  </div>
+                  <div class="col-md-3 col-sm-6">
+                     <div class="Informa conta">
                         <h3>Contact Us</h3>
-                        <ul class="conta">
-                           <li><i class="fa fa-map-marker" aria-hidden="true"></i>Locations 
-                           </li>
-                           <li><i class="fa fa-phone" aria-hidden="true"></i>Call +01 1234567890</li>
-                           <li> <i class="fa fa-envelope" aria-hidden="true"></i><a href="Javascript:void(0)"> demo@gmail.com</a></li>
+                        <p>Address: 123 Street Name, City, Country</p>
+                        <p>Phone: +123 456 7890</p>
+                        <p>Email: info@example.com</p>
+                     </div>
+                  </div>
+                  <div class="col-md-3 col-sm-6">
+                     <div class="Informa helpful">
+                        <h3>Helpful Links</h3>
+                        <ul>
+                           <li><a href="#">FAQs</a></li>
+                           <li><a href="#">Support</a></li>
+                           <li><a href="#">Privacy Policy</a></li>
+                           <li><a href="#">Terms & Conditions</a></li>
                         </ul>
                      </div>
                   </div>
-                  <div class="col-md-8">
-                     <div class="row border_left">
-                        <div class="col-md-12">
-                           <div class="infoma">
-                              <h3>Newsletter</h3>
-                              <form class="form_subscri">
-                                 <div class="row">
-                                    <div class="col-md-12">
-                                    </div>
-                                    <div class="col-md-4">
-                                       <input class="newsl" placeholder="Enter your email" type="text" name="Enter your email">
-                                    </div>
-                                    <div class="col-md-4">
-                                       <input class="newsl" placeholder="Enter your email" type="text" name="Enter your email">
-                                    </div>
-                                    <div class="col-md-4">
-                                       <button class="subsci_btn">subscribe</button>
-                                    </div>
-                                 </div>
-                              </form>
-                           </div>
-                        </div>
-                        <div class="col-md-9">
-                           <div class="infoma">
-                              <h3>Useful Link</h3>
-                              <ul class="fullink">
-                                 <li><a href="index.html">Home</a></li>
-                                 <li><a href="about.html">About</a></li>
-                                 <li><a href="skating.html">Skating</a></li>
-                                 <li><a href="shop.html">Shop</a></li>
-                                 <li><a href="contact.html">Contact Us</a></li>
-                              </ul>
-                           </div>
-                        </div>
-                        <div class="col-md-3">
-                           <div class="infoma text_align_left">
-                              <ul class="social_icon">
-                                 <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                 <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                 <li><a href="Javascript:void(0)"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
-                                 <li><a href="Javascript:void(0)"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                              </ul>
-                           </div>
-                        </div>
+                  <div class="col-md-3 col-sm-6">
+                     <div class="Informa opening">
+                        <h3>Opening Hours</h3>
+                        <ul>
+                           <li>Monday - Friday: 9am - 5pm</li>
+                           <li>Saturday: 10am - 2pm</li>
+                           <li>Sunday: Closed</li>
+                        </ul>
                      </div>
                   </div>
                </div>
             </div>
             <div class="copyright">
                <div class="container">
-                  <div class="row">
-                     <div class="col-md-12">
-                        <p>© 2020 All Rights Reserved. Design by <a href="https://html.design/"> Free html Templates</a></p>
-                     </div>
-                  </div>
+                  <p>&copy; 2024 All Rights Reserved. <a href="https://html.design/">Free Html Templates</a></p>
                </div>
             </div>
          </div>
@@ -522,12 +291,15 @@ $events = $eventController->readAll();
       <!-- end footer -->
       <!-- Javascript files-->
       <script src="js/jquery.min.js"></script>
+      <script src="js/popper.min.js"></script>
       <script src="js/bootstrap.bundle.min.js"></script>
       <script src="js/jquery-3.0.0.min.js"></script>
+      <script src="js/plugin.js"></script>
       <!-- sidebar -->
+      <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
       <script src="js/custom.js"></script>
-      <script>
-         AOS.init();
-      </script>
+      <!-- javascript -->
+      <script src="js/owl.carousel.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    </body>
 </html>

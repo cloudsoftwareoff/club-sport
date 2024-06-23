@@ -19,6 +19,7 @@ class AuthController {
             session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'] ?? NULL;
 
             return "Login successful!";
         } else {
@@ -28,7 +29,9 @@ class AuthController {
 
     public function signup($data) {
         $data['password_hash'] = password_hash($data['password'], PASSWORD_BCRYPT);
+        $data['profile_picture']="https://i.pinimg.com/564x/91/ef/c7/91efc7494a6f79cde815f4bb473d2a9c.jpg";
         unset($data['password']);
+        echo $data['password'];
         return $this->userModel->create($data);
     }
 

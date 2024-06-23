@@ -1,3 +1,18 @@
+<?php
+
+require_once __DIR__ . '/src/db_connection.php';
+require_once __DIR__ . '/src/controllers/EventController.php';
+session_start();
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+
+$logged = $user_id !== null;
+$pdo = new PDO($dsn, $user, $pass, $options);
+$eventController = new EventController($pdo);
+$events = $eventController->readAll();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -54,13 +69,13 @@
                      <div class="collapse navbar-collapse" id="navbarsExample04">
                         <ul class="navbar-nav mr-auto">
                            <li class="nav-item">
-                              <a class="nav-link" href="index.html">Home</a>
+                              <a class="nav-link" href="index.php">Home</a>
                            </li>
                            <li class="nav-item">
                               <a class="nav-link" href="about.html">About</a>
                            </li>
                            <li class="nav-item active">
-                              <a class="nav-link" href="skating.html">skating</a>
+                              <a class="nav-link" href="#">Events</a>
                            </li>
                            <li class="nav-item">
                               <a class="nav-link" href="shop.html">shop</a>
@@ -82,42 +97,36 @@
          </div>
       </div>
       <!-- end header inner -->
-      <!-- our class -->
-      <div class="class">
+        <!-- our class -->
+        <div class="class">
          <div class="container">
             <div class="row">
                <div class="col-md-12">
                   <div class="titlepage text_align_center">
-                     <h2>Our Skating Class</h2>
-                     <p>There are many variations of passages of Lorem</p>
+                     <h2>Our Events</h2>
+                     <p>Join us</p>
                   </div>
                </div>
             </div>
             <div class="row">
-               <div class="col-md-4 margi_bottom">
-                  <div class="class_box text_align_center">
-                     <i><img src="images/class1.png" alt="#"/></i>
-                     <h3>Skateboard</h3>
-                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alterationThere are many variations </p>
+               <?php foreach ($events as $event): ?>
+                  <div class="col-md-4 margi_bottom">
+                     <div class="class_box text_align_center">
+                        <figure>
+                           <img src="images/event.png" alt="#" />
+                        </figure>
+                        <h3><?php echo $event['title']; ?></h3>
+                        <p><?php echo $event['description']; ?></p>
+                        <div class="event-details">
+                           <p><strong>Date:</strong> <?php echo $event['date']; ?></p>
+                           <p><strong>Time:</strong> <?php echo $event['time']; ?></p>
+                           <p><strong>Location:</strong> <?php echo $event['location']; ?></p>
+                        </div>
+                        <br>
+                        <a class="read_more" href="events/event_details.php?event_id=<?php echo $event['id']; ?>">Read More</a>
+                     </div>
                   </div>
-                  <a class="read_more" href="Javascript:void(0)">Read More</a>
-               </div>
-               <div class="col-md-4 margi_bottom">
-                  <div class="class_box blue text_align_center">
-                     <i><img src="images/class2.png" alt="#"/></i>
-                     <h3>Skateboard</h3>
-                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alterationThere are many variations </p>
-                  </div>
-                  <a class="read_more" href="Javascript:void(0)">Read More</a>
-               </div>
-               <div class="col-md-4 margi_bottom">
-                  <div class="class_box text_align_center">
-                     <i><img src="images/class3.png" alt="#"/></i>
-                     <h3>Skateboard</h3>
-                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alterationThere are many variations </p>
-                  </div>
-                  <a class="read_more" href="Javascript:void(0)">Read More</a>
-               </div>
+               <?php endforeach; ?>
             </div>
          </div>
       </div>

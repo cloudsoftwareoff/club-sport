@@ -23,6 +23,12 @@ class Event {
         $stmt->execute(['id' => $id]);
         return $stmt->fetch();
     }
+    public function getEventsByAssociation($createdBy) {
+        $stmt = $this->pdo->prepare("SELECT * FROM events WHERE createdBy = :createdBy");
+        $stmt->bindParam(':createdBy', $createdBy, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function update($data) {
         $stmt = $this->pdo->prepare("UPDATE events SET title = :title, description = :description, date = :date, time = :time, location = :location, createdBy = :createdBy WHERE id = :id");

@@ -4,6 +4,10 @@
 require_once __DIR__ . '/../src/db_connection.php';
 require_once __DIR__ . '/../src/controllers/AuthController.php';
 
+// Fetch associations for the dropdown
+$query = $pdo->query('SELECT id, username FROM users WHERE role = "association"');
+$associations = $query->fetchAll(PDO::FETCH_ASSOC);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = [
         'username' => htmlspecialchars($_POST['username']),
@@ -15,32 +19,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'gender' => htmlspecialchars($_POST['gender']),
         'phone_number' => htmlspecialchars($_POST['phone_number']),
         'address' => htmlspecialchars($_POST['address']),
+        'role' => htmlspecialchars($_POST['role']),
+        'association_id' => isset($_POST['association_id']) && !empty($_POST['association_id']) ? htmlspecialchars($_POST['association_id']) : null
     ];
 
     $authController = new AuthController($pdo);
     if ($authController->signup($data)) {
         header("Location: login.php");
+        exit();
     } else {
-        echo "Error registering user.";
+        echo "Erreur lors de l'enregistrement de l'utilisateur.";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Form</title>
-    <!-- Bootstrap CSS -->
+    <title>Formulaire d'Inscription</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 600px;
+        }
+        .form-title {
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            padding: 10px;
+        }
+        .btn-primary {
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Signup</h2>
+    <h2 class="form-title">Inscription</h2>
     <form action="signup.php" method="POST">
         <div class="form-group">
-            <label for="signupUsername">Username</label>
+            <label for="signupUsername">Nom d'utilisateur</label>
             <input type="text" class="form-control" id="signupUsername" name="username" required>
         </div>
         <div class="form-group">
@@ -48,44 +71,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="email" class="form-control" id="signupEmail" name="email" required>
         </div>
         <div class="form-group">
-            <label for="signupPassword">Password</label>
+            <label for="signupPassword">Mot de passe</label>
             <input type="password" class="form-control" id="signupPassword" name="password" required>
         </div>
         <div class="form-group">
-            <label for="signupFirstName">First Name</label>
+            <label for="signupFirstName">Prénom</label>
             <input type="text" class="form-control" id="signupFirstName" name="first_name" required>
         </div>
         <div class="form-group">
-            <label for="signupLastName">Last Name</label>
+            <label for="signupLastName">Nom</label>
             <input type="text" class="form-control" id="signupLastName" name="last_name" required>
         </div>
         <div class="form-group">
-            <label for="signupDOB">Date of Birth</label>
+            <label for="signupDOB">Date de naissance</label>
             <input type="date" class="form-control" id="signupDOB" name="date_of_birth" required>
         </div>
         <div class="form-group">
-            <label for="signupGender">Gender</label>
+            <label for="signupGender">Genre</label>
             <select class="form-control" id="signupGender" name="gender" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="Male">Homme</option>
+                <option value="Female">Femme</option>
+                <option value="Other">Autre</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="signupPhone">Phone Number</label>
+            <label for="signupPhone">Numéro de téléphone</label>
             <input type="text" class="form-control" id="signupPhone" name="phone_number" required>
         </div>
         <div class="form-group">
-            <label for="signupAddress">Address</label>
+            <label for="signupAddress">Adresse</label>
             <textarea class="form-control" id="signupAddress" name="address" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Signup</button>
+        <div class="form-group">
+            <label for="signupRole">Rôle</label>
+            <select class="form-control" id="signupRole" name="role" required>
+                <option value="athlete">Athlète</option>
+                <option value="association">Association</option>
+            </select>
+        </div>
+        <div class="form-group" id="associationSelect" style="display: none;">
+            <label for="signupAssociation">Sélectionnez une association</label>
+            <select class="form-control" id="signupAssociation" name="association_id">
+                <option value="">Aucune</option>
+                <?php foreach ($associations as $association): ?>
+                    <option value="<?php echo $association['id']; ?>"><?php echo htmlspecialchars($association['username']); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
     </form>
+    <p class="mt-3">Vous avez déjà un compte ? <a href="login.php">Connectez-vous</a></p>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('signupRole').addEventListener('change', function() {
+        var role = this.value;
+        var associationSelect = document.getElementById('associationSelect');
+        if (role === 'athlete') {
+            associationSelect.style.display = 'block';
+        } else {
+            associationSelect.style.display = 'none';
+        }
+    });
+</script>
 </body>
 </html>

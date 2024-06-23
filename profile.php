@@ -11,8 +11,8 @@ if (!$user_id) {
 }
 
 $userClass = new User($pdo);
-$userData = $userClass->getUserData($user_id); 
-
+$userData = $userClass->getUserData($user_id);
+echo htmlspecialchars($userData['profile_picture']);
 if (!$userData) {
     echo "User not found";
     exit;
@@ -21,6 +21,7 @@ if (!$userData) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- basic -->
     <meta charset="utf-8">
@@ -48,10 +49,11 @@ if (!$userData) {
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 </head>
 <!-- body -->
+
 <body class="main-layout">
     <!-- loader  -->
     <div class="loader_bg">
-        <div class="loader"><img src="images/loading.gif" alt="#"/></div>
+        <div class="loader"><img src="images/loading.gif" alt="#" /></div>
     </div>
     <!-- end loader -->
     <!-- header -->
@@ -62,20 +64,22 @@ if (!$userData) {
                     <div class="full">
                         <div class="center-desk">
                             <div class="logo">
-                                <a href="index.html"><img src="images/logo.png" alt="#" /></a>
+                                <a href="index.php"><img src="images/logo.png" alt="#" /></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-8 col-sm-12">
                     <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.html">Home</a>
+                                    <a class="nav-link" href="index.php">Home</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="about.html">About</a>
@@ -98,19 +102,21 @@ if (!$userData) {
                 </div>
                 <div class="col-md-2">
                     <ul class="email text_align_right">
-                        <li class="d_none"><a href="./u/signup.php"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                        <li class="d_none"> <a href="Javascript:void(0)"><i class="fa fa-search" style="cursor: pointer;" aria-hidden="true"></i></a> </li>
+                        <li class="d_none"><a href="./u/signup.php"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="d_none"> <a href="Javascript:void(0)"><i class="fa fa-search"
+                                    style="cursor: pointer;" aria-hidden="true"></i></a> </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
     <!-- end header inner -->
-   <br>
-   <br>
-   <br>
-   <br>
- 
+    <br>
+    <br>
+    <br>
+    <br>
+
 
     <!-- profile section -->
     <div class="container profile-section">
@@ -125,33 +131,39 @@ if (!$userData) {
         <div class="row">
             <div class="col-md-4 text_align_center">
                 <div class="profile-img">
-                    <img src="<?php echo htmlspecialchars($userData['profile_picture']); ?> alt="Profile Picture" class="img_responsive">
+                    <img src="<?php echo htmlspecialchars($userData['profile_picture']); ?>" alt="Profile Picture"
+                        class="img_responsive">
                     <button class="btn btn-primary mt-3">Change Picture</button>
                 </div>
+
             </div>
             <div class="col-md-8">
                 <form class="profile-form" action="update_profile.php" method="post">
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" value="<?php echo htmlspecialchars($userData['username']); ?>" readonly>
+                        <input type="text" class="form-control" id="username"
+                            value="<?php echo htmlspecialchars($userData['username']); ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($userData['email']); ?>">
+                        <input type="email" class="form-control" id="email" name="email"
+                            value="<?php echo htmlspecialchars($userData['email']); ?>">
                     </div>
                     <div class="form-group">
                         <label for="first-name">First Name</label>
-                        <input type="text" class="form-control" id="first-name" name="first_name" value="<?php echo htmlspecialchars($userData['first_name']); ?>">
+                        <input type="text" class="form-control" id="first-name" name="first_name"
+                            value="<?php echo htmlspecialchars($userData['first_name']); ?>">
                     </div>
                     <div class="form-group">
                         <label for="last-name">Last Name</label>
-                        <input type="text" class="form-control" id="last-name" name="last_name" value="<?php echo htmlspecialchars($userData['last_name']); ?>">
+                        <input type="text" class="form-control" id="last-name" name="last_name"
+                            value="<?php echo htmlspecialchars($userData['last_name']); ?>">
                     </div>
                     <button type="submit" class="btn btn-primary">Update Profile</button>
-                    
+
                 </form>
                 <form action="./u/logout.php" method="POST">
-                <button type="submit" class="btn btn-danger">Logout</button>
+                    <button type="submit" class="btn btn-danger">Logout</button>
                 </form>
             </div>
         </div>
@@ -167,10 +179,11 @@ if (!$userData) {
                         <div class="infoma">
                             <h3>Contact Us</h3>
                             <ul class="conta">
-                                <li><i class="fa fa-map-marker" aria-hidden="true"></i>Locations 
+                                <li><i class="fa fa-map-marker" aria-hidden="true"></i>Locations
                                 </li>
                                 <li><i class="fa fa-phone" aria-hidden="true"></i>Call +01 1234567890</li>
-                                <li> <i class="fa fa-envelope" aria-hidden="true"></i><a href="Javascript:void(0)"> demo@gmail.com</a></li>
+                                <li> <i class="fa fa-envelope" aria-hidden="true"></i><a href="Javascript:void(0)">
+                                        demo@gmail.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -184,7 +197,8 @@ if (!$userData) {
                                             <div class="col-md-12">
                                             </div>
                                             <div class="col-md-4">
-                                                <input class="newsl" placeholder="Enter your email" type="text" name="Enter your email">
+                                                <input class="newsl" placeholder="Enter your email" type="text"
+                                                    name="Enter your email">
                                             </div>
                                             <div class="col-md-5">
                                                 <button class="subsci_btn">Subscribe</button>
@@ -192,15 +206,20 @@ if (!$userData) {
                                         </div>
                                     </form>
                                     <ul class="social_icon">
-                                        <li><a href="Javascript:void(0)"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="Javascript:void(0)"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="Javascript:void(0)"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                        <li><a href="Javascript:void(0)"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                        <li><a href="Javascript:void(0)"><i class="fa fa-facebook"
+                                                    aria-hidden="true"></i></a></li>
+                                        <li><a href="Javascript:void(0)"><i class="fa fa-twitter"
+                                                    aria-hidden="true"></i></a></li>
+                                        <li><a href="Javascript:void(0)"><i class="fa fa-linkedin"
+                                                    aria-hidden="true"></i></a></li>
+                                        <li><a href="Javascript:void(0)"><i class="fa fa-instagram"
+                                                    aria-hidden="true"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <p>Copyright 2019 All Right Reserved By <a href="https://html.design/">Free html Templates</a></p>
+                                <p>Copyright 2019 All Right Reserved By <a href="https://html.design/">Free html
+                                        Templates</a></p>
                             </div>
                         </div>
                     </div>
@@ -219,4 +238,5 @@ if (!$userData) {
     <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="js/custom.js"></script>
 </body>
+
 </html>
