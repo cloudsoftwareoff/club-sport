@@ -12,7 +12,7 @@ if (!$user_id) {
 
 $userClass = new User($pdo);
 $userData = $userClass->getUserData($user_id);
-echo htmlspecialchars($userData['profile_picture']);
+
 if (!$userData) {
     echo "User not found";
     exit;
@@ -64,7 +64,7 @@ if (!$userData) {
                     <div class="full">
                         <div class="center-desk">
                             <div class="logo">
-                                <a href="index.php"><img src="images/logo.png" alt="#" /></a>
+                                <a href="index.php"><img src="images/logo.png"  width="50dp" height="50dp"   alt="#" /></a>
                             </div>
                         </div>
                     </div>

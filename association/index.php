@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'association') {
     header("Location: ../u/index.php");
     exit();
 }
-
+$logged=true;
 $association_id = $_SESSION['user_id'];
 $associationController = new AssociationController($pdo);
 
@@ -42,8 +42,66 @@ $events = $associationController->getEvents($association_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de l'Association</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+      <!-- style css -->
+      <link rel="stylesheet" href="../css/style.css">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="../css/responsive.css">
+
 </head>
 <body>
+          <!-- header -->
+          <div class="header">
+         <div class="container-fluid">
+            <div class="row d_flex">
+               <div class=" col-md-2 col-sm-3 col logo_section">
+                  <div class="full">
+                     <div class="center-desk">
+                        <div class="logo">
+                           <a href="index.html"><img src="../images/logo.png" alt="#" /></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-8 col-sm-12">
+                  <nav class="navigation navbar navbar-expand-md navbar-dark ">
+                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                     <span class="navbar-toggler-icon"></span>
+                     </button>
+                     <div class="collapse navbar-collapse" id="navbarsExample04">
+                        <ul class="navbar-nav mr-auto">
+                           <li class="nav-item">
+                              <a class="nav-link" href="../index.php">Home</a>
+                           </li>
+                           <li class="nav-item active">
+                              <a class="nav-link" href="#">Dashboard</a>
+                           </li>
+                      
+                        </ul>
+                     </div>
+                  </nav>
+               </div>
+               <div class="col-md-2">
+                  <ul class="email text_align_right">
+                     <li class="d_none">
+                     <a href="<?php echo $logged ?  '../profile.php' : '../u/signup.php'; ?>">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        </a>
+                     
+                     </li>
+                    
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end header inner -->
+
+      <br/>
+      <br/>
+      <br/>
+      <br/>
 <div class="container mt-5">
     <h2>Dashboard de l'Association</h2>
 

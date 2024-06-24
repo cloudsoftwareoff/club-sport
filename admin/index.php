@@ -4,11 +4,11 @@ require_once __DIR__ . '/../src/controllers/UserController.php';
 session_start();
 
 // Check if user is logged in
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admins') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../u/index.php");
     exit();
 }
-
+$logged=true;
 // Establish a database connection
 $pdo = new PDO($dsn, $user, $pass, $options);
 $userController = new UserController($pdo);
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $message = 'User updated successfully.';
     } elseif ($action === 'delete' && $userId) {
-        $userController->deleteUser($userId);
+        $userController->deleteUseAr($userId);
         $message = 'User deleted successfully.';
     }
 }
@@ -68,6 +68,11 @@ $users = $userController->readAll();
     <meta charset="UTF-8">
     <title>Manage Users</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+   *
+      <!-- style css -->
+      <link rel="stylesheet" href="../css/style.css">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="../css/responsive.css">
     <style>
         .container {
             margin-top: 50px;
@@ -75,6 +80,58 @@ $users = $userController->readAll();
     </style>
 </head>
 <body>
+
+          <!-- header -->
+          <div class="header">
+         <div class="container-fluid">
+            <div class="row d_flex">
+               <div class=" col-md-2 col-sm-3 col logo_section">
+                  <div class="full">
+                     <div class="center-desk">
+                        <div class="logo">
+                           <a href="index.html"><img src="../images/logo.png" alt="#" /></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-8 col-sm-12">
+                  <nav class="navigation navbar navbar-expand-md navbar-dark ">
+                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                     <span class="navbar-toggler-icon"></span>
+                     </button>
+                     <div class="collapse navbar-collapse" id="navbarsExample04">
+                        <ul class="navbar-nav mr-auto">
+                           <li class="nav-item">
+                              <a class="nav-link" href="../index.php">Home</a>
+                           </li>
+                           <li class="nav-item active">
+                              <a class="nav-link" href="#">Dashboard</a>
+                           </li>
+                      
+                        </ul>
+                     </div>
+                  </nav>
+               </div>
+               <div class="col-md-2">
+                  <ul class="email text_align_right">
+                     <li class="d_none">
+                     <a href="<?php echo $logged ?  '../profile.php' : '../u/signup.php'; ?>">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        </a>
+                     
+                     </li>
+                   
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end header inner -->
+
+      <br/>
+      <br/>
+      <br/>
+      <br/>
 <div class="container">
     <h1>Manage Users</h1>
     <?php if ($message): ?>

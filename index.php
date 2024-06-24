@@ -5,7 +5,7 @@ require_once __DIR__ . '/src/controllers/EventController.php';
 session_start();
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
-
+$userRole=isset($_SESSION['role']) ? $_SESSION['role'] : null;
 $logged = $user_id !== null;
 $pdo = new PDO($dsn, $user, $pass, $options);
 $eventController = new EventController($pdo);
@@ -23,7 +23,7 @@ $events = $eventController->readAll();
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>sbs</title>
+      <title>SportEasy</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -34,7 +34,7 @@ $events = $eventController->readAll();
       <!-- Responsive-->
       <link rel="stylesheet" href="css/responsive.css">
       <!-- fevicon -->
-      <link rel="icon" href="images/fevicon.png" type="image/gif" />
+      <link rel="icon" href="images/logo.png" type="image/gif" />
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <!--[if lt IE 9]>
@@ -56,7 +56,7 @@ $events = $eventController->readAll();
                   <div class="full">
                      <div class="center-desk">
                         <div class="logo">
-                           <a href="index.html"><img src="images/logo.png" alt="#" /></a>
+                           <a href="index.html"><img src="images/logo.png" width="50dp" height="50dp"  alt="#" /></a>
                         </div>
                      </div>
                   </div>
@@ -78,11 +78,14 @@ $events = $eventController->readAll();
                               <a class="nav-link" href="events.php">Events</a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="shop.html">shop</a>
-                           </li>
-                           <li class="nav-item">
                               <a class="nav-link" href="contact.html">Contact Us</a>
                            </li>
+                           <?php if ($userRole !== null): ?>
+                           <li class="nav-item">
+                           <a class="nav-link" href="<?php echo ($userRole=='admin') ? 'admin/index.php' : (($userRole=='association') ? 'association/index.php' : '#'); ?>">Dashboard</a>
+                           </li>
+                           <?php endif; ?>
+
                         </ul>
                      </div>
                   </nav>
@@ -90,12 +93,12 @@ $events = $eventController->readAll();
                <div class="col-md-2">
                   <ul class="email text_align_right">
                      <li class="d_none">
-                     <a href="<?php echo $logged ?  'profile.php' : 'u/signup.php'; ?>">
+                     <a href="<?php echo $logged ?  'profile.php' : 'u/index.php'; ?>">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         </a>
                      
                      </li>
-                     <li class="d_none"> <a href="Javascript:void(0)"><i class="fa fa-search" style="cursor: pointer;" aria-hidden="true"></i></a> </li>
+                  
                   </ul>
                </div>
             </div>
@@ -125,11 +128,11 @@ $events = $eventController->readAll();
                                        <div class="board">
                                           <i><img src="images/top_icon.png" alt="#"/></i>
                                           <h3>
-                                             Skating<br> Board<br> School
+                                             Easy<br> Sport<br> Management
                                           </h3>
-                                          <div class="link_btn">
+                                          <!-- <div class="link_btn">
                                              <a class="read_more" href="Javascript:void(0)">Read More   <span></span></a>
-                                          </div>
+                                          </div> -->
                                        </div>
                                     </div>
                                     <div class="col-md-7">
@@ -283,7 +286,7 @@ $events = $eventController->readAll();
             </div>
             <div class="copyright">
                <div class="container">
-                  <p>&copy; 2024 All Rights Reserved. <a href="https://html.design/">Free Html Templates</a></p>
+                  <p>&copy; 2024 All Rights Reserved. <a href="https://cloudsoftware.tn/">Cloud Software</a></p>
                </div>
             </div>
          </div>

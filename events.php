@@ -23,7 +23,7 @@ $events = $eventController->readAll();
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>sbs</title>
+      <title>SportEasy</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -56,7 +56,7 @@ $events = $eventController->readAll();
                   <div class="full">
                      <div class="center-desk">
                         <div class="logo">
-                           <a href="index.html"><img src="images/logo.png" alt="#" /></a>
+                           <a href="index.html"><img src="images/logo.png"  width="50dp" height="50dp"  alt="#" /></a>
                         </div>
                      </div>
                   </div>
@@ -77,20 +77,16 @@ $events = $eventController->readAll();
                            <li class="nav-item active">
                               <a class="nav-link" href="#">Events</a>
                            </li>
-                           <li class="nav-item">
-                              <a class="nav-link" href="shop.html">shop</a>
-                           </li>
-                           <li class="nav-item">
-                              <a class="nav-link" href="contact.html">Contact Us</a>
-                           </li>
+                     
                         </ul>
                      </div>
                   </nav>
                </div>
                <div class="col-md-2">
                   <ul class="email text_align_right">
-                     <li class="d_none"><a href="Javascript:void(0)"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                     <li class="d_none"> <a href="Javascript:void(0)"><i class="fa fa-search" style="cursor: pointer;" aria-hidden="true"></i></a> </li>
+                  <a href="<?php echo $logged ?  'profile.php' : 'u/index.php'; ?>">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        </a>
                   </ul>
                </div>
             </div>
